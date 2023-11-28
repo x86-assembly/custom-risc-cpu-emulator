@@ -82,7 +82,7 @@ class CPU:
             elif(opcode == OPCODES["hid"]):
                 # ! not implemented yet, used for debug reg print
                 if(DEBUG):
-                    print(f", debug_print: {self.regs[Ireg1]}")
+                    print(f", debug_print: {self.regs[Ireg1]}", end="")
                 pass
             elif(opcode == OPCODES["les"]):
                 if(self.regs[Ireg1] < self.regs[Ireg2]):

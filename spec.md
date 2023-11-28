@@ -18,7 +18,7 @@ memory(ram) has 8bits of data at each address
 5 sta [reg1][reg2][reg3]; store data to ram at [*reg2][*reg3] from reg1
 6 add [reg1][reg2]; add [*reg1][*reg2], store in reg1, set flag on carry
 7 sub [reg1][reg2]; subtract [*reg1][*reg2], store in reg1, set flag on carry
-8 hid [reg1][reg2][reg3]; set hid select port to [*reg1], and hid dataOut to [*reg2][*reg3], store result from dataIn in {always} register 0x1 . ??Assigning/Managing ids of devices is left to the user??
+8 hid [reg1][reg2][reg3]; set hid select port to [*reg1], and hid dataOut to [*reg2][*reg3], store result from dataIn in {always} register 0x1 . ??Assigning/Managing ids of devices is left to the user?? !!This is currently not implemented!!
 9 les [reg1][reg2]; compare [*reg1] <  [*reg2], set flag if true
 a equ [reg1][reg2]; compare [*reg1] == [*reg2], set flag if true
 b and [reg1][reg2]; and [*reg1][*reg2], store in reg1, set flag if result 0
@@ -40,13 +40,13 @@ every register is 8bits in value
 6 gpo reg
 7 gpo reg
 8 gpo reg
-9 gpo reg + Debug out ; value is displayed with LEDs, can be used as display
-a gpo reg + Debug out ; value is displayed with LEDs, can be used as display
-b gpo reg + Debug out ; value is displayed with LEDs, can be used as display
-c gpo reg + Debug out ; value is displayed with LEDs, can be used as display
-d R/O reg ; value is set by physical switches, software read only
-e R/O reg ; value is set by physical switches, software read only
-f R/O reg ; value is set by physical switches, software read only
+9 gpo reg
+a gpo reg
+b gpo reg
+c gpo reg
+d gpo reg
+e gpo reg
+f gpo reg
 
 hidden:
 24bit PC
