@@ -41,7 +41,7 @@ rev_OPCODES = {
 DEBUG = True
 
 class CPU:
-    def start(self, ROM, ram=bytearray(2**16)):
+    def start(self, ROM: bytearray, ram=bytearray(2**16)):
         self.ROM = ROM  
         self.ram = ram  
         self.flag= False
@@ -51,8 +51,7 @@ class CPU:
 
         self.run()
 
-        with open("ram_dump", "wb") as f:
-            f.write(self.ram)
+        return self.ram
     def run(self):
 
         while not(self.halt):
@@ -139,7 +138,8 @@ class CPU:
 
             if(not(jumped)):
                 self.pc+=1
-            print()
+            if(DEBUG):
+                print()
 
             
         return
@@ -149,7 +149,10 @@ if __name__ == "__main__":
     ROM = 0;
     with open("ROM.bin", "rb") as tmpROM:
         ROM = bytearray(tmpROM.read());
-    Ram = bytearray(2**24)
+    
     myCPU = CPU()
+    ram_dump = myCPU.start(ROM)
 
-    myCPU.start(ROM, ram=Ram)
+    with open("ram_dump.bin", "wb") as f:
+        f.write(ram_dump)
+
