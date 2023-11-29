@@ -1,3 +1,4 @@
+import time
 OPCODES = {
     "nop" : 0x0,
     "jnf" : 0x1,
@@ -15,6 +16,26 @@ OPCODES = {
     "xor" : 0xd,
     "not" : 0xe,
     "hlt" : 0xf
+}
+
+
+rev_OPCODES = {
+    0x0 : "nop",
+    0x1 : "jnf",
+    0x2 : "ldi",
+    0x3 : "cpy",
+    0x4 : "lda",
+    0x5 : "sta",
+    0x6 : "add",
+    0x7 : "sub",
+    0x8 : "hid",
+    0x9 : "les",
+    0xa : "equ",
+    0xb : "and",
+    0xc : "orr",
+    0xd : "xor",
+    0xe : "not",
+    0xf : "hlt"
 }
 
 DEBUG = True
@@ -45,14 +66,18 @@ class CPU:
             Ireg2 = instruction_b2 >> 4
             Ireg3 = instruction_b2 & 0b1111
 
+            jumped = False
+
             if(DEBUG):
-                print(f"[{self.pc}]: Opcode: {opcode}, Ireg1: {Ireg1}, Ireg2: {Ireg2}, Ireg3: {Ireg3}", end="")
+                print(f"[{self.pc}]: Opcode: {rev_OPCODES[opcode]}, Ireg1: {Ireg1}, Ireg2: {Ireg2}, Ireg3: {Ireg3}, new: {new_flag}, {self.flag}", end="")
 
             if(opcode == OPCODES["nop"]):
                 pass
             elif(opcode == OPCODES["jnf"]):
                 if(not(self.flag)):
                     self.pc = (self.regs[Ireg1] << 16) + (self.regs[Ireg2] << 8) + self.regs[Ireg3]
+                    jumped = True
+                    print(f", {(self.regs[Ireg1] << 16) + (self.regs[Ireg2] << 8) + self.regs[Ireg3]}", end="")
             elif(opcode == OPCODES["ldi"]):
                 self.regs[Ireg1] = (Ireg2 << 4) + Ireg3
             elif(opcode == OPCODES["cpy"]):
@@ -63,7 +88,7 @@ class CPU:
                 self.ram[self.regs[Ireg2]<<8 + self.regs[Ireg3]] = self.regs[Ireg1]
             elif(opcode == OPCODES["add"]):
                 _calc_val = self.regs[Ireg1] + self.regs[Ireg2]
-                if(_calc_val > 256):
+                if(_calc_val > 255):
                     self.flag = True
                     new_flag = True
 
@@ -112,9 +137,11 @@ class CPU:
             if(not(new_flag)):
                 self.flag=False
 
-            if(not(opcode == OPCODES["jnf"])):
+            if(not(jumped)):
                 self.pc+=1
             print()
+
+            
         return
 
 
